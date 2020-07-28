@@ -116,6 +116,7 @@ void __sio_set_gpio(int PinOffset, int OutValue);
 /********************************************************************/
 void __sio_unlock(void)
 {
+	ioperm(SIO_INDEX, 2, 1);
 	outb(SIO_INDEX, 0x87);
 	outb(SIO_INDEX, 0x87);
 }
@@ -123,6 +124,7 @@ void __sio_unlock(void)
 void __sio_lock(void)
 {
 	outb(SIO_INDEX, 0xaa);
+	ioperm(SIO_INDEX, 2, 0);
 }
 /***********/
 void __sio_logic_device(char num)
