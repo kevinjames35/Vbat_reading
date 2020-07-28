@@ -38,7 +38,6 @@
 /***********  Define SuperIO Logical Device  ***************************/
 /***********************************************************************/
 /***** NCT-6776 LDN define ******/
-#if defined(SIO_NCA6776)
 	#define	SIO_LDN_GPIO6789	0x07	
 	#define SIO_LDN_WDT		0x08
 	#define SIO_LDN_GPIO2345	0x09
@@ -46,7 +45,7 @@
 	#define SIO_LDN_HWM		0x0B
 	#define SIO_LDN_GPIO_PP		0x0F	//select GPIO Push-Pull or Open-Drain	
 	#define SIO_LDN_GPIOA		0x17
-#endif
+
 
 /**********************************/
 /**** NCT-6776 Raw Access file ****/
@@ -268,7 +267,7 @@ int xi;
 			}
 */
 int buff=0;
-	if(__sio_get_voltage( &buff)==true)
+	if(__sio_get_voltage(&buff))
 	{
 		printf("Vbat reading value:%d\t",buff);
 		if(buff!=0)
@@ -276,6 +275,7 @@ int buff=0;
 	}
 	else
 	{
+		printf("function fail\n");
 	}
 
 return 0;
