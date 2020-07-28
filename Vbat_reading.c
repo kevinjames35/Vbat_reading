@@ -276,11 +276,14 @@ int buff=0;
 		printf("Vbat reading value:%d\t",buff);
 		if(buff!=0)
 		{printf("Alarm\n");}
+		else
+		{printf("\n");}
 	}
 	else
 	{
 		printf("function fail\n");
 	}
+
 
 return 0;
 }
