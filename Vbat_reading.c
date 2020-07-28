@@ -185,13 +185,15 @@ uint8_t xch;
 
 		__sio_set_gpio(0x33,0);
 		sleep(1);
+		ioperm(wHWM_INDEX, 2, 1);
 		outb( 0x4e,wHWM_INDEX );
 		outb( 0x05,wHWM_DATA );	//bank 5, index 51
 		outb( 0x51,wHWM_INDEX ); //Vbat
 		xch=inb(wHWM_DATA);
-		outb( 0x4e,wHWM_INDEX );
-		outb(  0x00,wHWM_DATA); //bank 0
+		//outb( 0x4e,wHWM_INDEX );
+		//outb(  0x00,wHWM_DATA); //bank 0
 		*pdwData=(int32_t)(xch * 16) ;
+ioperm(wHWM_INDEX, 2, 0);
 		//__sio_set_gpio(0x33,0);
 
 	return true;
