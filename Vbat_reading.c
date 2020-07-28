@@ -251,12 +251,12 @@ uint8_t xReg, bData;
 
 int main(int argc, char *argv[])
 {
+
+
+
+
+/*
 int xi;
-
-
-
-
-
 	if ( argc < 2 ) {
 		//__printf_usage(argv[0]);
 		return -1;
@@ -266,5 +266,17 @@ int xi;
 		if( strcmp("-e", argv[xi]) == 0 ) 
 		{}
 			}
+*/
+int buff=0;
+	if(__sio_get_voltage( &buff)==true)
+	{
+		printf("Vbat reading value:%d\t",buff);
+		if(buff!=0)
+		{printf("Alarm\n");}
+	}
+	else
+	{
+	}
+
 return 0;
 }
