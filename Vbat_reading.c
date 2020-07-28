@@ -117,36 +117,36 @@ void __sio_set_gpio(int PinOffset, int OutValue);
 void __sio_unlock(void)
 {
 	ioperm(SIO_INDEX, 2, 1);
-	outb(SIO_INDEX, 0x87);
-	outb(SIO_INDEX, 0x87);
+	outb( 0x87,SIO_INDEX);
+	outb( 0x87,SIO_INDEX);
 }
 /***********/
 void __sio_lock(void)
 {
-	outb(SIO_INDEX, 0xaa);
+	outb(0xaa,SIO_INDEX);
 	ioperm(SIO_INDEX, 2, 0);
 }
 /***********/
 void __sio_logic_device(char num)
 {
-	outb(SIO_INDEX, 0x7);
-	outb(SIO_DATA, num);
+	outb(0x7,SIO_INDEX );
+	outb(num,SIO_DATA );
 }
 /************/
 uint8_t read_sio_reg(uint8_t LDN, uint8_t reg)
 {
-        outb(SIO_INDEX, 0x7);
-	outb(SIO_DATA, LDN);
-        outb(SIO_INDEX, reg);
+        outb(0x7,SIO_INDEX);
+	outb(LDN,SIO_DATA );
+        outb( reg,SIO_INDEX);
         return inb(SIO_DATA);
 }
 /************/
 uint8_t write_sio_reg(uint8_t LDN, uint8_t reg, uint8_t value)
 {	
-       	outb(SIO_INDEX, 0x7);
-        outb(SIO_DATA, LDN);
-        outb(SIO_INDEX, reg);
-        outb(SIO_DATA, value);
+       	outb(0x7,SIO_INDEX);
+        outb( LDN,SIO_DATA);
+        outb(reg,SIO_INDEX );
+        outb(value,SIO_DATA );
         return 0;
 }
 
@@ -161,9 +161,9 @@ void __getting_hwm_index(void)
 uint16_t wAddr, xData;
 	__sio_unlock();
 	__sio_logic_device(SIO_LDN_HWM);
-	outb(SIO_INDEX, 0x60);
+	outb(0x60,SIO_INDEX);
 	xData=(uint16_t)inb(SIO_DATA);
-	outb(SIO_INDEX, 0x61);
+	outb(0x61,SIO_INDEX );
 	wAddr=(uint16_t)inb(SIO_DATA);
 	wAddr= wAddr | (xData << 8 ) ;
 	__sio_lock();
@@ -185,12 +185,12 @@ uint8_t xch;
 
 		__sio_set_gpio(0x33,0);
 		sleep(1);
-		outb( wHWM_INDEX, 0x4e);
-		outb( wHWM_DATA, 0x05);	//bank 5, index 51
-		outb( wHWM_INDEX, 0x51); //Vbat
+		outb( 0x4e,wHWM_INDEX );
+		outb( 0x05,wHWM_DATA );	//bank 5, index 51
+		outb( 0x51,wHWM_INDEX ); //Vbat
 		xch=inb(wHWM_DATA);
-		outb( wHWM_INDEX, 0x4e);
-		outb( wHWM_DATA, 0x00); //bank 0
+		outb( 0x4e,wHWM_INDEX );
+		outb(  0x00,wHWM_DATA); //bank 0
 		*pdwData=(int32_t)(xch * 16) ;
 		//__sio_set_gpio(0x33,0);
 
@@ -238,12 +238,12 @@ uint8_t xReg, bData;
 		return; //don't do anything
 		break;
 	}
-	outb( SIO_INDEX, xReg);
+	outb(  xReg,SIO_INDEX);
 	bData = inb(SIO_DATA);
 	if ( OutValue ) bData |= (0x01 << gpPin);
 	else		bData &=  ~(0x01 << gpPin);		
-	outb( SIO_INDEX, xReg);
-	outb( SIO_DATA, bData);
+	outb(  xReg,SIO_INDEX);
+	outb(  bData,SIO_DATA);
 
 	__sio_lock();
 	return;
